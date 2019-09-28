@@ -1,5 +1,6 @@
 const User = require("./../models/User");
 const {validationResult} = require('express-validator')
+
 module.exports = {
   loginUser: async (req, res) => {
     const { email, password } = req.body
@@ -20,10 +21,9 @@ module.exports = {
      let user = await User.findOne({ email: req.body.email })
      if (user) return res.status(400).send({ stausCode: 400, message: 'Email already exists' })
      user = new User(req.body)
-     const accessToken = await user.generateToken()
-     user.accessToken = accessToken
      await user.save()
-      res.status(201).json({
+     const accessToken = await user.generateToken()
+      res.status(201).send({
         statusCode: 201,
         user,
         accessToken: `Bearer ${accessToken}`,

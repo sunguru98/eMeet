@@ -48,9 +48,12 @@ userSchema.methods = {
     delete user.__v
     delete user.accessToken
     delete user.password
+    return user
   },
   generateToken: async function () {
-    const accessToken = await jwt.sign({ _id: this._id }, process.env.JWT_SECRET, { expiresIn: '24h' })
+    const accessToken = await jwt.sign({ id: this._id.toString() }, process.env.JWT_SECRET, { expiresIn: '24h' })
+    this.accessToken = accessToken
+    await this.save()
     return accessToken
   }
 }
@@ -59,7 +62,6 @@ userSchema.pre('save', async function (next) {
   if (this.isModified('password')) {
     const hashedPassword = await bcrypt.hash(this.password, 10)
     this.password = hashedPassword
-    await this.save()
   }
   next()
 })

@@ -8,7 +8,7 @@ const authenticate = async (req, res, next) => {
     accessToken = accessToken.replace('Bearer ', '')
     const payload = await jwt.verify(accessToken, process.env.JWT_SECRET)
     const user = await User.findOne({ _id: payload._id, accessToken })
-    if (!user) throw new Error()]
+    if (!user) throw new Error()
     req.user = user
     req.accessToken = accessToken
     next()
