@@ -1,41 +1,41 @@
-const UserCollection = require("./../models/User");
-
+const User = require("./../models/User");
+const {validationResult} = require('express-validator')
 module.exports = {
-  getRegister: async (req, res) => {
+  loginUser: async (req, res) => {
+    const { email, password } = req.body
     try {
-      const users = await UserCollection.find();
-      res.status(200).json({
-        status: "success",
-        data: {
-          users
-        }
-      });
+      const user = await User.authenticateUser(email, password)
+      if (!user) return res.status(401).send({ statusCode: 401, message: 'Invalid credentials' })
+      const accessToken = await user.generateToken()
+      res.send({ statusCode: 200, user, accessToken: `Bearer ${accessToken}`, expiresIn: '24h' })
     } catch (err) {
-      res.status(400).json({
-        status: "fail",
-        message: err
-      });
+      console.error(err)
+      res.status(500).send({ statusCode: 500, message: 'Server Error' })
     }
   },
   createUser: async (req, res) => {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) return res.status(400).send({ statusCode: 400, message: errors.array()})
     try {
-      const newUser = await UserCollection.create(req.body);
-      res.status(200).json({
-        status: "success",
-        data: {
-          user: newUser
-        }
+     let user = await User.findOne({ email: req.body.email })
+     if (user) return res.status(400).send({ stausCode: 400, message: 'Email already exists' })
+     user = new User(req.body)
+     const accessToken = await user.generateToken()
+     user.accessToken = accessToken
+     await user.save()
+      res.status(201).json({
+        statusCode: 201,
+        user,
+        accessToken: `Bearer ${accessToken}`,
+        expiresIn: '24h'
       });
     } catch (err) {
-      res.status(400).json({
-        status: "fail",
-        message: err
-      });
+      res.status(500).send({ statusCode: 500, message: err.message })
     }
   },
   updateUser: async (req, res) => {
     try {
-      const updatedUser = await UserCollection.findByIdAndUpdate(
+      const updatedUser = await User.findByIdAndUpdate(
         req.params.id,
         req.body
       );
@@ -54,7 +54,7 @@ module.exports = {
   },
   deleteUser: async (req, res) => {
     try {
-      await UserCollection.findByIdAndDelete(req.params.id);
+      await User.findByIdAndDelete(req.params.id);
       res.status(200).json({
         status: "success",
         message: "user record deleted"
