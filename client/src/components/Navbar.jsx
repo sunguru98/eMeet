@@ -29,9 +29,9 @@ const Navbar = () => {
                 <Link className="button is-primary" to='/register'>
                   <strong>Sign up</strong>
                 </Link>
-                <a className="button is-light">
+                <Link className="button is-primary" to='/signin' className="button is-light">
                   Log in
-                </a>
+                </Link>
               </div>
             </div>
           </div>

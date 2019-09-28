@@ -1,5 +1,5 @@
 import React from "react";
-
+import "./../styles/landingstyle.css";
 const LandingPage = () => {
   return (
     <section className="LandingPage">
@@ -7,7 +7,10 @@ const LandingPage = () => {
         E-meet
       </h1>
       <h2 className="is-2">Online, Inperson. Connect everywhere</h2>
-      <button class="button is-primary">Primary</button>
+      <div class="button-wrapper">
+        <button class="button is-primary">Register</button>
+        <button class="button is-primary">Login</button>
+      </div>
     </section>
   );
 };

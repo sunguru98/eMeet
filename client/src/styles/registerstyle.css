@@ -1,0 +1,25 @@
+.registerform {
+  width: 30vw;
+  border: 1px solid grey;
+  border-radius: 50px;
+  height: 50vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.registerform input[type="email"],
+.registerform input[type="text"],
+.registerform input[type="password"] {
+  width: 20vw;
+}
+section {
+  height: 80vh;
+  width: 100vw;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+}
+.space-btw{
+  width: 20vw;
+}
