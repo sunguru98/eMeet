@@ -4,7 +4,7 @@ const {
   createUser,
   updateUser,
   deleteUser
-} = require("../controller/userController");
+} = require("../controllers/userController");
 const router = Router();
 
 router.get("/", getRegister);

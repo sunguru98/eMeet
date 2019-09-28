@@ -1,4 +1,4 @@
-const UserCollection = require("./../models/userModel");
+const UserCollection = require("./../models/User");
 
 module.exports = {
   getRegister: async (req, res) => {
