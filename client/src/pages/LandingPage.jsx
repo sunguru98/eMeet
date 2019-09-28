@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./../styles/landingstyle.css";
 const LandingPage = () => {
   return (
@@ -8,8 +9,12 @@ const LandingPage = () => {
       </h1>
       <h2 className="is-2">Online, Inperson. Connect everywhere</h2>
       <div class="button-wrapper">
-        <button class="button is-primary">Register</button>
-        <button class="button is-primary">Login</button>
+        <Link className="button is-primary" to="/register">
+          <strong>Register</strong>
+        </Link>
+        <Link className="button is-primary" to="/signin">
+          <strong>Log in</strong>
+        </Link>
       </div>
     </section>
   );
