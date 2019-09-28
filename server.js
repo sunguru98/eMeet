@@ -9,6 +9,6 @@ require('./db')
 app.use(express.json());
 
 // All routes
-app.use("/api/v1/users", require("./router/userRoutes"));
+app.use("/api/v1/users", require("./routes/userRoutes"));
 
 app.listen(port, () => console.log('Server connected'))
